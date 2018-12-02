@@ -3,6 +3,13 @@ use code::helper::file_to_string;
 use std::str::FromStr;
 use std::collections::HashMap;
 
+// TODO: proposal 
+//   - error handler helper func to remove unwrap in file_to_string
+//   - error handler in func here to remove unwrap (use match w/ panic)
+//   - prob not a way to write like s.lines().iter().map(...).collect()
+//     for loop ok
+//   - while true / loop. poss to remove? 
+
 pub fn problem1(path: &str) -> i32 {
   // something other than unwrap?
   let s = file_to_string(path).unwrap();
