@@ -1,6 +1,5 @@
 use code::helper::file_to_veci32;
 
-use std::str::FromStr;
 use std::collections::HashMap;
 
 pub fn problem1(path: &str) -> i32 {
@@ -14,7 +13,7 @@ pub fn problem2(path: &str) -> i32 {
   let mut t = 0;
   let mut d = HashMap::new();
   
-  // TODO: while true / loop. poss to remove? 
+  // TODO: while true / loop poss to remove? 
   loop {
     for l in v.iter() {
       t += l;
