@@ -17,7 +17,7 @@ pub fn file_to_veci32(path: &str) -> Result<Vec<i32>, io::Error> {
       .collect())
 }
 
-pub fn file_to_vecstring<'a>(path: &str) -> Result<Vec<String>, io::Error> {
+pub fn file_to_vecstring(path: &str) -> Result<Vec<String>, io::Error> {
   let mut s = String::new();
   File::open(path)?.read_to_string(&mut s)?;
   Ok(s.lines().map(|l| l.to_string()).collect())
