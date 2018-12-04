@@ -1,8 +1,6 @@
 use std::io;
 use std::io::Read;
 use std::fs::File;
-use std::io::BufReader;
-use std::io::BufRead;
 use std::str::FromStr;
 
 pub fn file_to_string(path: &str) -> Result<String, io::Error> {
@@ -19,10 +17,8 @@ pub fn file_to_veci32(path: &str) -> Result<Vec<i32>, io::Error> {
       .collect())
 }
 
-/*
-pub fn file_to_vecstr<'a>(path: &str) -> Result<Vec<&str>, io::Error> {
+pub fn file_to_vecstring<'a>(path: &str) -> Result<Vec<String>, io::Error> {
   let mut s = String::new();
   File::open(path)?.read_to_string(&mut s)?;
-  Ok(s.split("\n").collect())
+  Ok(s.lines().map(|l| l.to_string()).collect())
 }
-*/
