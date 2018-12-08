@@ -1,5 +1,7 @@
 use code::helper::file_to_string;
-// use code::helper::file_to_vec;
+use code::helper::file_to_vecstring;
+use code::helper::difference_between_two_strings;
+use code::helper::similar_chars;
 
 use std::collections::HashMap;
 
@@ -35,25 +37,23 @@ pub fn problem1(path: &str) -> i32 {
   twos * threes
 }
 
-pub fn problem2(path: &str) -> (&str, &str) {
-  /*
-  let v = file_to_vec(path);
+pub fn problem2(path: &str) -> String {
+  let v = file_to_vecstring(path).unwrap();
+  let mut l1 = "";
+  let mut l2 = "";
 
-  for &line1 in v.iter() {
-    for &line2 in v.iter() {
+  'outer: for line1 in &v {
+    for line2 in &v {
       if line1 != line2 {
-        let mut diff = 0;
-        for (ch1, ch2) in line1.chars().zip(line2.chars()) {
-          if ch1 != ch2 {
-            diff += 1; 
-          }
-        }
+        let mut diff = difference_between_two_strings(&line1, &line2);
         if diff == 1 {
-          return (&line1, &line2);
+          l1 = line1;
+          l2 = line2;
+          break 'outer;
         }
       }
     }
   }
-  */
-  (&"", &"")
+
+  similar_chars(&l1, &l2)
 }
