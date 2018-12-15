@@ -42,3 +42,33 @@ pub fn similar_chars(s1: &str, s2: &str) -> String {
   }
   out
 }
+
+pub fn extract_nums(v: Vec<String>) -> Vec<Vec<i32>> {
+  let mut out: Vec<Vec<i32>> = vec!();
+  for line in &v {
+    let mut lineout: Vec<i32> = vec!();
+    let split_by_whitespace: Vec<&str> = line.split_whitespace().collect();
+
+    let mut id: i32 = split_by_whitespace[0]
+      .get(1..).unwrap()
+      .parse::<i32>().unwrap();
+    lineout.push(id);
+
+    let mut lhs: Vec<i32> = split_by_whitespace[2]
+      .get(0..split_by_whitespace[2].len()-1).unwrap() // curse the :
+      .split(",")
+      .map(|s| s.parse::<i32>().unwrap())
+      .collect();
+    lineout.append(&mut lhs);
+
+    let mut rhs: Vec<i32> = split_by_whitespace[3]
+      .split("x")
+      .map(|s| s.parse::<i32>().unwrap())
+      .collect();
+    lineout.append(&mut rhs);
+
+    out.push(lineout);
+  }
+
+  out
+}
