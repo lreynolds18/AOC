@@ -25,6 +25,11 @@ fn main() {
            println!("{}", code::day3::problem1(&resource_path));
            println!("{}", code::day3::problem2(&resource_path));
          },
+    4 => {
+           resource_path.push_str("/day4.txt");
+           println!("{}", code::day4::problem1(&resource_path));
+           println!("{}", code::day4::problem2(&resource_path));
+         },
     _ => {
            println!("Error: not found");
          }

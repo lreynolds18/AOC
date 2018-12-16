@@ -2,6 +2,7 @@ use std::io;
 use std::io::Read;
 use std::fs::File;
 use std::str::FromStr;
+use std::cmp::Ordering;
 
 pub fn file_to_string(path: &str) -> Result<String, io::Error> {
   let mut s = String::new();
@@ -67,6 +68,77 @@ pub fn extract_nums(v: Vec<String>) -> Vec<Vec<i32>> {
       .collect();
     lineout.append(&mut rhs);
 
+    out.push(lineout);
+  }
+
+  out
+}
+
+// note: we don't care about the year here because they are all the same
+#[derive(Eq)]
+pub struct GuardInput {
+  pub month: u8,
+  pub day: u8,
+  pub hour: u8,
+  pub minute: u8,
+  pub description: String,
+  pub guard_id: i32
+}
+
+impl PartialOrd for GuardInput {
+  fn partial_cmp(&self, other: &GuardInput) -> Option<Ordering> {
+    Some(self.cmp(other))
+  }
+}
+
+impl Ord for GuardInput {
+  fn cmp(&self, other: &GuardInput) -> Ordering {
+    if self.month == other.month {
+      if self.day == other.day {
+        if self.hour == other.hour {
+          self.minute.cmp(&other.minute)
+        } else {
+          // NOTE: we want to negate because 23 < 0
+          other.hour.cmp(&self.hour)
+        }
+      } else {
+        self.day.cmp(&other.day)
+      }
+    } else {
+      self.month.cmp(&other.month)
+    }
+  }
+}
+
+impl PartialEq for GuardInput {
+    fn eq(&self, other: &GuardInput) -> bool {
+        self.month == other.month
+        && self.day == other.day
+        && self.hour == other.hour
+        && self.minute == other.minute
+    }
+}
+
+pub fn extract_guard_input(v: Vec<String>) -> Vec<GuardInput> {
+  let mut out: Vec<GuardInput> = vec!();
+
+  for line in &v {
+    let guard_id = if &line[19..24] == "Guard" {
+      let split_by_whitespace: Vec<&str> = line[19..].split_whitespace().collect();
+      (&split_by_whitespace[1][1..]).parse::<i32>().unwrap() 
+    } else {
+      0
+    };
+
+    let lineout = GuardInput {
+      month: line[6..8].parse::<u8>().unwrap(),
+      day: line[9..11].parse::<u8>().unwrap(),
+      hour: line[12..14].parse::<u8>().unwrap(),
+      minute: line[15..17].parse::<u8>().unwrap(),
+      description: line[19..].to_string(),
+      guard_id: guard_id
+    };
+    
     out.push(lineout);
   }
 
