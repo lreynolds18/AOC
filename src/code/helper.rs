@@ -77,10 +77,10 @@ pub fn extract_nums(v: Vec<String>) -> Vec<Vec<i32>> {
 // note: we don't care about the year here because they are all the same
 #[derive(Eq)]
 pub struct GuardInput {
-  pub month: u8,
-  pub day: u8,
-  pub hour: u8,
-  pub minute: u8,
+  pub month: i32,
+  pub day: i32,
+  pub hour: i32,
+  pub minute: i32,
   pub description: String,
   pub guard_id: i32
 }
@@ -98,8 +98,7 @@ impl Ord for GuardInput {
         if self.hour == other.hour {
           self.minute.cmp(&other.minute)
         } else {
-          // NOTE: we want to negate because 23 < 0
-          other.hour.cmp(&self.hour)
+          self.hour.cmp(&other.hour)
         }
       } else {
         self.day.cmp(&other.day)
@@ -131,10 +130,10 @@ pub fn extract_guard_input(v: Vec<String>) -> Vec<GuardInput> {
     };
 
     let lineout = GuardInput {
-      month: line[6..8].parse::<u8>().unwrap(),
-      day: line[9..11].parse::<u8>().unwrap(),
-      hour: line[12..14].parse::<u8>().unwrap(),
-      minute: line[15..17].parse::<u8>().unwrap(),
+      month: line[6..8].parse::<i32>().unwrap(),
+      day: line[9..11].parse::<i32>().unwrap(),
+      hour: line[12..14].parse::<i32>().unwrap(),
+      minute: line[15..17].parse::<i32>().unwrap(),
       description: line[19..].to_string(),
       guard_id: guard_id
     };
